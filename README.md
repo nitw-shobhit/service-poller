@@ -1,9 +1,10 @@
-#Service Poller
+# Service Poller
 Spring boot app which polls configured service and keeps a track of their health. 
 Written in a layered architecture.
 Uses flyway for database migrations.
+The service comes with an extremely basic UI to present the status of each service.
 
-###Getting started
+### Getting started
 
 ```
 mvn clean install
