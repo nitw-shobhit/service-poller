@@ -6,7 +6,8 @@ Uses flyway for database migrations.
 ###Getting started
 
 ```
-docker-compose up
+mvn clean install
+docker-compose up --build --force-recreate
 ```
 This will start the application on port 8080 and a postgres docker container to save the service data.
 
