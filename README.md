@@ -2,7 +2,7 @@
 Spring boot app which polls configured service and keeps a track of their health. 
 Written in a layered architecture.
 Uses flyway for database migrations.
-The service comes with an extremely basic UI to present the status of each service.
+The service comes with an extremely basic UI to present the status of each service. UI can be accessed at http://localhost:8080
 
 ### Getting started
 
