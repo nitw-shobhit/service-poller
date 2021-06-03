@@ -10,7 +10,7 @@ public interface ServiceManager {
 
     Optional<Service> getOne(String id);
     List<Service> getAll();
-    List<Service> getAllForUpdateModifiedBefore(Instant lastModifiedBefore);
+    List<Service> getForHealthCheck(Instant lastModifiedBefore);
     Service create(Service service);
     Service update(String id, Service service);
     void delete(String id);

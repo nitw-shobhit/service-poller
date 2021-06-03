@@ -26,7 +26,7 @@ public class ServicePoller {
     @Scheduled(fixedDelay = 5000)
     public void poll() {
         val lastModifiedBefore = Instant.now().minusSeconds(pollingFrequency);
-        serviceManager.getAllForUpdateModifiedBefore(lastModifiedBefore)
+        serviceManager.getForHealthCheck(lastModifiedBefore)
                 .forEach(service -> {
                     log.info("Running health check for  service "+ service.getName());
                     val healthCheck = healthCheckHelper.call(service.getUrl());

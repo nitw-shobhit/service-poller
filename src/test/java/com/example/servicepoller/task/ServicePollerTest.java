@@ -30,7 +30,7 @@ public class ServicePollerTest extends UnitTestBase {
 
     @Test
     public void testPoll() {
-        when(serviceManager.getAllForUpdateModifiedBefore(any()))
+        when(serviceManager.getForHealthCheck(any()))
                 .thenReturn(List.of(Service.builder()
                                 .id("lord-of-the-rings-service")
                                 .url("http://lor")

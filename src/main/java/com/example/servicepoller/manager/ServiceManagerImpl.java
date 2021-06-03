@@ -1,11 +1,12 @@
 package com.example.servicepoller.manager;
 
+import com.example.servicepoller.api.v1.model.HealthCheck;
 import com.example.servicepoller.data.entity.ServiceRepository;
 import com.example.servicepoller.data.model.Service;
 import com.example.servicepoller.data.model.ServiceMapper;
-import com.example.servicepoller.util.healthcheck.HealthCheckHelper;
 import com.example.servicepoller.util.exception.BadRequestException;
 import com.example.servicepoller.util.exception.NotFoundException;
+import com.example.servicepoller.util.healthcheck.HealthCheckHelper;
 import com.example.servicepoller.validator.ServiceValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,11 +47,10 @@ public class ServiceManagerImpl implements ServiceManager {
 
     @Override
     @Transactional
-    public List<Service> getAllForUpdateModifiedBefore(final Instant lastModifiedBefore) {
-        return repository.findAllForUpdateModifiedBefore(lastModifiedBefore)
-                .stream()
-                .map(mapper::toPresentation)
-                .collect(Collectors.toList());
+    public List<Service> getForHealthCheck(final Instant lastModifiedBefore) {
+        val entitiesForUpdate = repository.findAllByStatusNotAndCheckedBeforeForUpdate(HealthCheck.CHECKING.name(), lastModifiedBefore);
+        entitiesForUpdate.forEach(entity -> entity.setStatus(HealthCheck.CHECKING.name()));
+        return mapper.toPresentation(entitiesForUpdate);
     }
 
     @Override

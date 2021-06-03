@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface ServiceRepository extends CrudRepository<ServiceEntity, String> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query(value = "select s from ServiceEntity s where s.lastChecked < :lastModifiedBefore")
-    List<ServiceEntity> findAllForUpdateModifiedBefore(Instant lastModifiedBefore);
+    @Query(value = "select s from ServiceEntity s where s.lastChecked <:lastChecked and s.status <>:status")
+    List<ServiceEntity> findAllByStatusNotAndCheckedBeforeForUpdate(String status, Instant lastChecked);
     Optional<ServiceEntity> findByName(String name);
 }

@@ -68,14 +68,14 @@ public class ServiceManagerTest extends UnitTestBase {
     }
 
     @Test
-    public void testGetAllForUpdateModifiedBefore() {
+    public void testGetForHealthCheck() {
         val serviceEntity1 = createTestServiceEntity("lord-of-the-rings-service", "http://one-ring.com/ping");
         val serviceEntity2 = createTestServiceEntity("hobbit-service", "http://frodo.com/ping");
-        val lastModifiedBefore = Instant.now();
-        when(repository.findAllForUpdateModifiedBefore(lastModifiedBefore))
+        val lastChecked = Instant.now();
+        when(repository.findAllByStatusNotAndCheckedBeforeForUpdate(HealthCheck.CHECKING.name(), lastChecked))
                 .thenReturn(List.of(serviceEntity1, serviceEntity2));
 
-        val response = unitToTest.getAllForUpdateModifiedBefore(lastModifiedBefore);
+        val response = unitToTest.getForHealthCheck(lastChecked);
         assertEquals(2, response.size());
         assertTrue(response.containsAll(List.of(createTestServiceFromEntity(serviceEntity1),
                 createTestServiceFromEntity(serviceEntity2))));
@@ -219,7 +219,7 @@ public class ServiceManagerTest extends UnitTestBase {
                 .id(serviceEntity.getId())
                 .name(serviceEntity.getName())
                 .url(serviceEntity.getUrl())
-                .status(HealthCheck.OK)
+                .status(HealthCheck.valueOf(serviceEntity.getStatus()))
                 .createdAt(serviceEntity.getCreatedAt())
                 .lastChecked(serviceEntity.getLastChecked())
                 .build();
